@@ -20,8 +20,10 @@ left_blacket="s/\[\([^09]\)/$BLUE[$RESET\1/g;"
 right_blacket="s/\]/$BLUE&$RESET/g;"
 no_instance="s/^\s*No instance/$RED&$RESET/g;"
 interactive="s/^<[^>]*>/$RED&$RESET/g;"
+identifier="s/[[:<:]][A-Z][A-Za-z_]*[[:>:]]/$GREEN&$RESET/g;"
+single_string="s/‘.*’/$YELLOW&$RESET/g;"
 
-exec "`which ghc`" --interactive ${1+"$@"} 2>&1 |\
+exec "`which stack`" repl ${1+"$@"} 2>&1 |\
     sed "$load_failed\
          $load_done\
          $no_instance\
@@ -34,4 +36,6 @@ exec "`which ghc`" --interactive ${1+"$@"} 2>&1 |\
          $right_blacket\
          $double_colon\
          $calc_operators\
+         $identifier\
+         $single_string\
          $string"
